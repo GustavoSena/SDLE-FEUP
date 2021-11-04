@@ -26,7 +26,7 @@ def main_loop():
     #this loop will listen to keyboard inputs and proceed accordingly
     put("teste")
 
-    
+
     return
 
 main_loop()
