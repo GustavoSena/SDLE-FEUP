@@ -1,14 +1,19 @@
 import sys
 import zmq
 import asyncio
+import os
+import signal
 
 from zmq.backend import zmq_poll
 
 # peers will have to connect to the server in order to get messages published on a certain topic
 # peers will have an unique ID so that the server can keep track of each peer individually
 
+# Global variables used throughout the program
 pub_port = "5556"
 sub_port = "5557"
+
+program_files_dir = "program_files"
 
 # if len(sys.argv) > 1:
 #     pub_port =  sys.argv[1]
@@ -65,8 +70,35 @@ def main_loop():
         
     return
 
+
+def create_program_files():
+    if not os.path.exists(program_files_dir):
+        os.makedirs(program_files_dir)
+    
+    
+    
+
 def start():
     print("Starting server...")
+    create_program_files()
     main_loop()
+
+ 
+
+# A bit of cleanup code in case we use ctrl-c to end the server
+def handler(signum, frame):
+    msg = "Do you really want to exit? y/n "
+    print(msg, end="", flush=True)
+    res = input()
+    if res == 'y':
+        print("")
+        exit(1)
+    else:
+        print("", end="\r", flush=True)
+        print(" " * len(msg), end="", flush=True) # clear the printed line
+        print("    ", end="\r", flush=True)
+ 
+signal.signal(signal.SIGINT, handler)
+
 
 start()
