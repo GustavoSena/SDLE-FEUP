@@ -87,12 +87,8 @@ def handler(signum, frame):
     print(msg, end="", flush=True)
     res = input()
     if res == 'y':
-        print("")
+        print()
         exit(1)
-    else:
-        print("", end="\r", flush=True)
-        print(" " * len(msg), end="", flush=True) # clear the printed line
-        print("    ", end="\r", flush=True)
  
 signal.signal(signal.SIGINT, handler)
 
